@@ -1,0 +1,35 @@
+{
+    "tasks": [
+        {
+            "label": "Open Terminal",
+            "type": "shell",
+            "command": "osascript -e 'tell application \"Terminal\"\ndo script \"echo hello\"\nend tell'",
+            "problemMatcher": []
+        }
+        {
+            "type": "shell",
+            "label": "C/C++: clang++ build active file",
+            "command": "/usr/bin/clang++",
+            "args": [
+                "-std=c++17",
+                "-stdlib=libc++",
+                "-g",
+                "${file}",
+                "LeetCode.cpp",
+                "-o",
+                "${fileDirname}/${fileBasenameNoExtension}"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ],
+    "version": "2.0.0"
+}
