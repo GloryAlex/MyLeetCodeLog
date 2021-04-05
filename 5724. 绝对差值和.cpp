@@ -17,7 +17,7 @@ public:
         for(int len=nums1.size(),i=0;i<len;i++){
             int curDiff = abs(nums1[i]-nums2[i]);
 
-            auto largeIndex=upper_bound(dict.begin(),dict.end(),nums2[i]);
+            auto largeIndex=dict.upper_bound(nums2[i]);
             maxCanReduce = max(maxCanReduce,abs(curDiff-abs(*largeIndex-nums2[i])));
             if(largeIndex!=dict.begin()){
                 largeIndex--;
