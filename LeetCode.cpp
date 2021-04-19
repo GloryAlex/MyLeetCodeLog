@@ -113,6 +113,18 @@ vector<vector<string>> getStringMatrix(const string s)
     }
     return ret;
 }
+//提取链表
+ListNode* getList(string str){
+    vector<int> origin = getArray(str);
+    ListNode dummy=ListNode(0);
+    ListNode* node = &dummy;
+    for(int i:origin){
+        ListNode* cur = new ListNode(i);
+        node->next=cur;
+        node=cur;
+    }
+    return dummy.next;
+}
 //布尔转字符串
 string to_string(TreeNode *node)
 {
@@ -125,6 +137,18 @@ string to_string(bool value)
 string to_string(string str)
 {
     return str;
+}
+string to_string(ListNode* node){
+    string ret = "[";
+    while (node)
+    {
+        ret+=to_string(node->val);
+        ret+=",";
+        node=node->next;
+    }
+    if(ret.back()==',')ret.back()=']';
+    else ret.push_back(']');
+    return ret;
 }
 //获取形为["a","b","c"]的数组
 //二叉树序列化器
