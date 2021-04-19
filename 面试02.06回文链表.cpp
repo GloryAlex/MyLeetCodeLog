@@ -41,7 +41,7 @@ public:
             fast = fast->next;
             if (fast)
                 fast = fast->next;
-            else
+            if (!fast)
                 break;
             slow = slow->next;
         }
@@ -56,6 +56,8 @@ public:
         {
             if (begin->val != post->val)
                 flag = false;
+            begin=begin->next;
+            post=post->next;
         }
         //恢复链表
         afterHalf = reverseList(afterHalf);

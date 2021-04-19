@@ -74,4 +74,13 @@ string serialize(TreeNode *root);
 string getNextItem(string &data, int &pos);
 TreeNode *deserialize(string data);
 
+//链表结构
+//   Definition for singly-linked list.
+struct ListNode {
+    int val;
+    ListNode *next;
+    ListNode(int x) : val(x), next(NULL) {}
+};
+string to_string(ListNode* node);
+ListNode* getList(string str);
 #endif
