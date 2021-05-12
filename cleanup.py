@@ -7,8 +7,8 @@ import shutil
 filePath = '.'
 curFiles = os.listdir(filePath)
 for i in curFiles:
-    if not(i=='input' or re.match(r'(^\.|.*\.(?:cpp|h|py|md)$)',i)):
-        if(os.path.isdir(i)):
+    if not(i=='input' or re.match(r'(^\.|.*\.(?:cpp|h|py|md|txt)$)',i)):
+        if os.path.isdir(i):
             print('删除目录及所有文件',i)
             shutil.rmtree(i)
         else:
