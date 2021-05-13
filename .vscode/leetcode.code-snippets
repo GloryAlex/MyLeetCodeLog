@@ -17,11 +17,17 @@
 	// }
 	"Start Coding": {
 		"scope": "cpp",
-		"prefix": "let's do some algorithm",
+		"prefix": "inchead",
 		"body": [
 			"#include \"LeetCode.h\"",
-			"using namespace std;",
-			"\n${1:$CLIPBOARD}\n",
+			"using namespace std;"
+		],
+		"description": "daily leetcode"
+	},
+	"Main Function":{
+		"scope": "cpp",
+		"prefix": "intmain",
+		"body": [
 			"int main(){",
 			"ifstream in(\"input\");",
 			"while(!in.eof()){",
