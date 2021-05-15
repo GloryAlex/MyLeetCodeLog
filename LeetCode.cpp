@@ -2,11 +2,13 @@
 
 using namespace std;
 
-//pair hashcode
-// template <typename T, typename U>
-// std::size_t leetCodePairHash::operator()(const std::pair<T, U> &x) const{
-//     return std::hash<T>()(x.first) ^ std::hash<U>()(x.second);
-// }
+/*
+pair hashcode
+template <typename T, typename U>
+std::size_t leetCodePairHash::operator()(const std::pair<T, U> &x) const{
+    return std::hash<T>()(x.first) ^ std::hash<U>()(x.second);
+}
+*/
 
 //分割字符串
 vector<string> split(const string s, const char delim)
