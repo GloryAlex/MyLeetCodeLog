@@ -24,9 +24,9 @@
 		],
 		"description": "daily leetcode"
 	},
-	"Main Function":{
+	"LeetCode Main Function":{
 		"scope": "cpp",
-		"prefix": "intmain",
+		"prefix": "main",
 		"body": [
 			"int main(){",
 			"ifstream in(\"input\");",
