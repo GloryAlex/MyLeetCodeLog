@@ -1,3 +1,5 @@
+#include "LeetCode.h"
+using namespace std;
 /*
  * @lc app=leetcode.cn id=203 lang=cpp
  *
@@ -16,10 +18,33 @@
  * };
  */
 class Solution {
-public:
+   public:
     ListNode* removeElements(ListNode* head, int val) {
-
+        //virtual head node
+        auto dummy = ListNode(0);
+        dummy.next=head;
+        //start checking
+        ListNode* node = &dummy;
+        while(node->next){
+            if(node->next->val==val){
+                auto temp = node->next;
+                node->next=node->next->next;
+                delete temp;
+            }
+            else node=node->next;
+        }
+        return dummy.next;
     }
 };
 // @lc code=end
 
+int main() {
+    ifstream in("input");
+    while (!in.eof()) {
+        string str;
+        int k;
+        in >> str >> k;
+        auto arr = getList(str);
+        print(Solution().removeElements(arr, k));
+    }
+}
