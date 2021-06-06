@@ -8,29 +8,25 @@ using namespace std;
 
 // @lc code=start
 class Solution {
+    struct nature{
+        int zeroCount;
+        int oneCount;
+    };
    public:
     int findMaxForm(vector<string>& strs, int m, int n) {
-        /**
-         * @member first: 字符串中 0 的个数
-         * @member second: 字符串中 1 的个数
-         */
-        vector<pair<int, int>> counts;
+        auto natures = vector<nature>();
         //统计字符数字的0/1计数
-        for (const auto& str : strs) {
-            int countOne = 0, countZero = 0;
-            for (char i : str)
-                if (i == '1')
-                    countOne++;
-                else
-                    countZero++;
-            counts.push_back({countZero, countOne});
+        for(const auto& str:strs){
+            int zeroCount = 0;
+            for(auto i:str)zeroCount+=(i=='0');
+            natures.push_back(nature{zeroCount,(int)str.size()-zeroCount});
         }
         //动态规划求解
-        auto dp = vector<vector<int>>(m + 1, vector<int>(n + 1));
-        for (const auto& count : counts) {
-            for(int i=m;i>=count.first;i--){
-                for(int j=n;j>=count.second;j--){
-                    dp[i][j]=max(dp[i][j],1+dp[i-count.first][j-count.second]);
+        auto dp = vector<vector<int>>(m+1,vector<int>(n+1));
+        for(const auto& curNature:natures){
+            for(int i=m;i>=curNature.zeroCount;i--){
+                for(int j=n;j>=curNature.oneCount;j--){
+                    dp[i][j]=max(dp[i][j],dp[i-curNature.zeroCount][j-curNature.oneCount]+1);
                 }
             }
         }
