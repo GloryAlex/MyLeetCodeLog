@@ -38,6 +38,7 @@ class Solution {
         //记忆化搜索答案
         return findMaxLength(0, 0, masks, lengthes, dict);
     }
+    //findMaxLength
     int findMaxLength(int index, int curWords, vector<int>& masks, vector<int>& lengthes,
             vector<unordered_map<int, int>>& dict) {
         if (index >= masks.size()) return 0;
