@@ -15,7 +15,6 @@
                 "-stdlib=libc++",
                 "-g",
                 "${file}",
-                "LeetCode.cpp",
                 "-o",
                 "${fileDirname}/${fileBasenameNoExtension}"
             ],
