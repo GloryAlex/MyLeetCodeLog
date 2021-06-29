@@ -76,7 +76,7 @@ class Solution {
     int maxLength = 0;
     Dictionary d;
     for (int i = 0, j = 0; i < s.size() && j < s.size(); i++) {
-      while (j < s.size() && j - i - d.getMaxFreq() <= k) {
+      while (j < s.size()) {
         d.inc(s[j++]);
         if (j - i - d.getMaxFreq() > k) break;
         maxLength = max(maxLength, j - i);
