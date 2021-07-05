@@ -31,7 +31,7 @@ class Solution {
                     count = count * 10 + (formula[j] - '0');
                     j++;
                 }
-                if(!count)count=1;
+                if (!count) count = 1;
                 auto curMolecur = s.top();
                 s.pop();
                 for (auto& [atom, size] : curMolecur) {
@@ -40,12 +40,14 @@ class Solution {
             }
             i = j;
         }
-        map<string, int> atoms;
-        for (auto& [atom, size] : s.top()) atoms[atom] = size;
+        vector<string> atoms;
+        for (auto& [atom, size] : s.top()) atoms.push_back(atom);
+        sort(atoms.begin(),atoms.end());
+        
         string result;
-        for (auto& [atom, size] : atoms) {
+        for (auto& atom: atoms) {
             result += atom;
-            if (size > 1) result += to_string(size);
+            if (s.top()[atom] > 1) result += to_string(s.top()[atom]);
         }
         return result;
     }
