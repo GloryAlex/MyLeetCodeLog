@@ -87,11 +87,22 @@ class Solution {
         for (int i = begin; i < end; i++) nums[i] = temp[i];
         return;
     }
-
+    /* 冒泡排序 */
+    void bubbleSort(vector<int>& nums){
+        bool hasSwaped = true;
+        while(hasSwaped){
+            hasSwaped=false;
+            for(int i=0;i<(int)nums.size()-1;i++){
+                if(nums[i]>nums[i+1]){
+                    swap(nums[i],nums[i+1]);
+                    hasSwaped=true;
+                }
+            }
+        }
+    }
    public:
     vector<int> sortArray(vector<int>& nums) {
-        vector<int> temp(nums.size());
-        mergeSort(nums, temp, 0, nums.size());
+        bubbleSort(nums);
         return nums;
     }
 };
@@ -101,7 +112,7 @@ void test(int n) {
     while (n--) {
         int size = rand() % 10;
         vector<int> test(size);
-        for (int& i : test) i = rand() % 20;
+        for (int& i : test) i = rand()%20;
         vector<int> temp = test;
         sort(temp.begin(), temp.end());
         if (temp != Solution().sortArray(test)) {
