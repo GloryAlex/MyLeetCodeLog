@@ -59,16 +59,16 @@ inline void print(const T a, const string end = "\n")
     cout << to_string(a) << end;
 }
 
-//用于pair的哈希类
-struct leetCodePairHash
-{
-public:
-    template <typename T, typename U>
-    size_t operator()(const pair<T, U> &x) const
-    {
-        return std::hash<T>()(x.first) ^ std::hash<U>()(x.second);
-    }
-};
+// //用于 std::pair 的哈希参考
+// struct leetCodePairHash
+// {
+// public:
+//     template <typename T, typename U>
+//     size_t operator()(const pair<T, U> &x) const
+//     {
+//         return std::hash<T>()(x.first) ^ std::hash<U>()(x.second);
+//     }
+// };
 
 string serialize(TreeNode *root);
 string getNextItem(string &data, int &pos);
