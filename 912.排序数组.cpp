@@ -8,6 +8,21 @@ using namespace std;
 
 // @lc code=start
 class Solution {
+    /* 插入排序 */
+    void insertSort(vector<int>::iterator begin, vector<int>::iterator end) {
+        for (auto i = begin + 1; i < end;) {
+            while (i < end && *i >= *(i - 1)) i++;
+            if (i < end) {
+                int val = *i;
+                auto j  = i;
+                while (j != begin && *(j - 1) > val) {
+                    *j = *(j - 1);
+                    j--;
+                }
+                *j = val;
+            }
+        }
+    }
     /* 选择排序 */
     vector<int> chooseSort(vector<int> nums) {
         auto min = [](vector<int>::iterator begin, vector<int>::iterator end) {
@@ -128,7 +143,7 @@ class Solution {
 
    public:
     vector<int> sortArray(vector<int>& nums) {
-        quickSort(nums, 0, nums.size());
+        insertSort(nums.begin(), nums.end());
         return nums;
     }
 };
