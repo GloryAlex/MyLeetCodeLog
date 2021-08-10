@@ -88,21 +88,47 @@ class Solution {
         return;
     }
     /* 冒泡排序 */
-    void bubbleSort(vector<int>& nums){
+    void bubbleSort(vector<int>& nums) {
         bool hasSwaped = true;
-        while(hasSwaped){
-            hasSwaped=false;
-            for(int i=0;i<(int)nums.size()-1;i++){
-                if(nums[i]>nums[i+1]){
-                    swap(nums[i],nums[i+1]);
-                    hasSwaped=true;
+        while (hasSwaped) {
+            hasSwaped = false;
+            for (int i = 0; i < (int)nums.size() - 1; i++) {
+                if (nums[i] > nums[i + 1]) {
+                    swap(nums[i], nums[i + 1]);
+                    hasSwaped = true;
                 }
             }
         }
     }
+    void quickSort(vector<int>& nums, int begin, int end) {
+        if (end - begin <= 1) return;
+        if (end - begin == 2) {
+            if (nums[begin] > nums[begin + 1]) swap(nums[begin], nums[begin + 1]);
+            return;
+        }
+        int left = begin, right = end - 1, middle = begin + (end - begin) / 2;
+        int leftVal = nums[left], rightVal = nums[right], middleVal = nums[middle];
+        if (leftVal > middleVal) swap(leftVal, middleVal);
+        if (leftVal > rightVal) swap(leftVal, rightVal);
+        if (middleVal > rightVal) swap(middleVal, rightVal);
+        nums[left++]  = leftVal;
+        nums[right--] = rightVal;
+        nums[middle]  = middleVal;
+        swap(nums[left], nums[middle]);
+        while (left < right) {
+            while (left < right && nums[right] >= middleVal) right--;
+            nums[left] = nums[right];
+            while (left < right && nums[left] <= middleVal) left++;
+            nums[right] = nums[left];
+        }
+        nums[left] = middleVal;
+        quickSort(nums, begin, left);
+        quickSort(nums, left, end);
+    }
+
    public:
     vector<int> sortArray(vector<int>& nums) {
-        bubbleSort(nums);
+        quickSort(nums, 0, nums.size());
         return nums;
     }
 };
@@ -112,7 +138,7 @@ void test(int n) {
     while (n--) {
         int size = rand() % 10;
         vector<int> test(size);
-        for (int& i : test) i = rand()%20;
+        for (int& i : test) i = rand() % 20;
         vector<int> temp = test;
         sort(temp.begin(), temp.end());
         if (temp != Solution().sortArray(test)) {
@@ -126,12 +152,12 @@ void test(int n) {
     printf("AC");
 }
 int main() {
-    // ifstream in("input");
-    // while (!in.eof()) {
-    //     string str;
-    //     in >> str;
-    //     auto arr = getArray(str);
-    //     print(Solution().sortArray(arr));
-    // }
+    ifstream in("input");
+    while (!in.eof()) {
+        string str;
+        in >> str;
+        auto arr = getArray(str);
+        print(Solution().sortArray(arr));
+    }
     test(100);
 }
