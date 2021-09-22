@@ -1,0 +1,57 @@
+#include "LeetCode.h"
+using namespace std;
+/*
+ * @lc app=leetcode.cn id=725 lang=cpp
+ *
+ * [725] 分隔链表
+ */
+
+ // @lc code=start
+ /**
+  * Definition for singly-linked list.
+  * struct ListNode {
+  *     int val;
+  *     ListNode *next;
+  *     ListNode() : val(0), next(nullptr) {}
+  *     ListNode(int x) : val(x), next(nullptr) {}
+  *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+  * };
+  */
+class Solution {
+public:
+    vector<ListNode*> splitListToParts(ListNode* head, int k) {
+        auto length = [](ListNode* head) {
+            int len = 0;
+            while (head) {
+                head = head->next;
+                len++;
+            }
+            return len;
+        }(head);
+        int partLength = length / k, remain = length - partLength * k;
+        auto result = vector<ListNode*>(k);
+        for (int i = 0; head; i++, remain--) {
+            // 计算下一个结点的位置
+            auto cur = result[i] = head;
+            int size = partLength + (remain > 0);
+            while (--size)cur = cur->next;
+            // 分隔链表
+            head = cur->next;
+            cur->next = NULL;
+        }
+        return result;
+    }
+};
+// @lc code=end
+
+int main() {
+    ifstream in("input");
+    while (!in.eof()) {
+        string str;
+        in >> str;
+        auto head = getList(str);
+        int k;
+        in >> k;
+        print(Solution().splitListToParts(head, k));
+    }
+}
