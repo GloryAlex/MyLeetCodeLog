@@ -1,10 +1,10 @@
 #!/bin/bash
 # 检查是否存在版本控制
-if [[ `ls .git` ]];then
+if [[ -e .git ]];then
 	echo '正在开始清理...'
 else
 	echo '没有检测到git仓库，不能执行危险操作'
-	exit;
+	exit 1
 fi
 # 自定义分隔符 
 IFS=$'\n'
