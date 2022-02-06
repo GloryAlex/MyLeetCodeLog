@@ -6,11 +6,13 @@ else
 	echo '没有检测到git仓库，不能执行危险操作'
 	exit 1
 fi
-# 自定义分隔符 
+# 自定义分隔符
 IFS=$'\n'
-for i in `ls | grep -v '\(^input$\)\|^.*\.\(cpp\|h\|py\|md\|txt\|sh\)$'`;
-do 
-	rm -rf -v $i
+for i in $(ls .)
+do
+	if [[ -z "$(git ls-files "$i")" ]]; then
+		trash -v "$i"
+	fi
 done
 
 echo '清理结束'
