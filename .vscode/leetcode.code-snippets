@@ -19,7 +19,7 @@
 		"scope": "cpp",
 		"prefix": "inchead",
 		"body": [
-			"#include \"LeetCode.h\"",
+			"#include \"lib/leetcode.h\"",
 			"using namespace std;"
 		],
 		"description": "daily leetcode"
@@ -31,7 +31,7 @@
 			"int main(){",
 			"ifstream in(\"input\");",
 			"while(!in.eof()){",
-			"string str;\nin>>str;\n${0:auto arr= getArray(str);}",
+			"string str;\nin>>str;\n${0}",
 			"}",
 			"}"
 		],
