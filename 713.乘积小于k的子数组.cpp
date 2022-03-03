@@ -10,14 +10,18 @@ using namespace std;
 class Solution {
    public:
     int numSubarrayProductLessThanK(vector<int>& nums, int k) {
-        int count = 0, prior = 0, tail = 0;
-        int product = 1;
-        while (tail != nums.size()) {
+        int result = 0;
+        int head=0,tail=0;
+        long long product=1LL;
+        while(tail<nums.size()){
             product *= nums[tail++];
-            while (prior < tail && product >= k)product /= nums[prior++];
-            count += tail - prior;
+            while(head<tail && product>=k){
+                product /= nums[head++];
+            }
+            
+            result += tail-head;
         }
-        return count;
+        return result;
     }
 };
 // @lc code=end
