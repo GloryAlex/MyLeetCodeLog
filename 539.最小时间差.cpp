@@ -1,4 +1,4 @@
-#include "LeetCode.h"
+#include "lib/leetcode.h"
 using namespace std;
 /*
  * @lc app=leetcode.cn id=539 lang=cpp
@@ -8,24 +8,25 @@ using namespace std;
 
 // @lc code=start
 class Solution {
-    static int valueOf(const string& str) {
-        auto pos = str.begin();
-        while (*pos != ':') pos++;
-        return stoi(string(str.begin(), pos)) * 60 +
-               stoi(string(pos + 1, str.end()));
-    }
-
    public:
     int findMinDifference(vector<string>& timePoints) {
-        vector<int> times = vector<int>(timePoints.size());
-        for (int i = 0; i < timePoints.size(); i++)
-            times[i] = Solution::valueOf(timePoints[i]);
-        sort(times.begin(), times.end());
+        vector<int> minutes = vector<int>(timePoints.size());
+        transform(timePoints.begin(), timePoints.end(), minutes.begin(),
+                  [](string timePoint) {
+                      auto i = timePoint.begin();
+                      while (i != timePoint.end() && *i != ':') i++;
+                      if (i == timePoint.end()) throw "Cannot transfer to int";
+                      return stoi(string(timePoint.begin(), i)) * 60 +
+                             stoi(string(i + 1, timePoint.end()));
+                  });
+        sort(minutes.begin(), minutes.end());
 
-        int minDiff = 24 * 60 - times.back() + times.at(0);
-        for (int i = 1; i < times.size(); i++) {
-            minDiff = min(minDiff, times[i] - times[i - 1]);
+        minutes.push_back(1440 + minutes[0]);
+        int minDiff = 1440;
+        for (int i = 1; i < minutes.size(); i++) {
+            minDiff = min(minDiff, minutes[i] - minutes[i - 1]);
         }
+
         return minDiff;
     }
 };
@@ -34,9 +35,9 @@ class Solution {
 int main() {
     ifstream in("input");
     while (!in.eof()) {
-        string str;
-        in >> str;
-        auto arr = getStringArray(str);
+        json j;
+        in >> j >> ws;
+        auto arr = j.get<vector<string>>();
         print(Solution().findMinDifference(arr));
     }
 }
