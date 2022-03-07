@@ -1,38 +1,40 @@
-#include "LeetCode.h"
+#include "lib/leetcode.h"
 using namespace std;
 
-class Solution
-{
-public:
-    vector<int> asteroidCollision(vector<int> &asteroids)
-    {
-        vector<int> remainAsteroidList;
-        for (int asteroid : asteroids)
-        {
-            if (asteroid > 0)
-                remainAsteroidList.emplace_back(asteroid);
-            else
-            {
-                int realSize = -asteroid;
-                while (remainAsteroidList.size() && remainAsteroidList.back() > 0 && remainAsteroidList.back() < realSize)
-                    remainAsteroidList.pop_back();
-                
-                if(remainAsteroidList.empty() || remainAsteroidList.back()<0)remainAsteroidList.emplace_back(asteroid);
-                else if(remainAsteroidList.back()==realSize)remainAsteroidList.pop_back();
+/*
+ * @lc app=leetcode.cn id=735 lang=cpp
+ *
+ * [735] 行星碰撞
+ */
+
+// @lc code=start
+class Solution {
+   public:
+    vector<int> asteroidCollision(vector<int> &asteroids) {
+        auto willCollide = [](int a, int b) { return a > 0 && b < 0; };
+        auto remains = vector<int>();
+        for (int asteroid : asteroids) {
+            while (!remains.empty() && willCollide(remains.back(), asteroid)) {
+                auto collider = remains.back();
+                remains.pop_back();
+
+                if (abs(collider) > abs(asteroid))
+                    asteroid = collider;
+                else if (abs(collider) == abs(asteroid))
+                    asteroid = 0;
             }
+            if (asteroid) remains.push_back(asteroid);
         }
-        return remainAsteroidList;
+        return remains;
     }
 };
-
-int main()
-{
+// @lc code=end
+int main() {
     ifstream in("input");
-    while (!in.eof())
-    {
-        string str;
-        in >> str;
-        auto arr = getArray(str);
+    while (!in.eof()) {
+        json j;
+        in >> j >> ws;
+        auto arr = j.get<vector<int>>();
         print(Solution().asteroidCollision(arr));
     }
 }
