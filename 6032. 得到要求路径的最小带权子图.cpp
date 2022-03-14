@@ -2,7 +2,7 @@
 using namespace std;
 
 class Solution {
-   public:
+   private:
     const long long INF = LONG_MAX;
     using Graph = vector<unordered_map<int, long long>>;
     struct Point {
@@ -37,6 +37,8 @@ class Solution {
         }
         return distance;
     }
+
+   public:
     long long minimumWeight(int n, vector<vector<int>>& edges, int src1,
                             int src2, int dest) {
         auto graph = Graph(n);
