@@ -1,4 +1,4 @@
-#include "LeetCode.h"
+#include "lib/leetcode.h"
 using namespace std;
 /*
  * @lc app=leetcode.cn id=421 lang=cpp
@@ -10,55 +10,40 @@ using namespace std;
 class Solution {
    public:
     struct TrieNode {
-        TrieNode* one = nullptr;
-        TrieNode* zero = nullptr;
-        ~TrieNode(){
-            if(one)delete one;
-            if(zero)delete zero;
+        TrieNode* next[2] = {nullptr};
+
+        void insert(int number) {
+            auto root = this;
+            for (int i = 31; i >= 0; i--) {
+                auto bit = (number >> i) & 1;
+                if (root->next[bit] == nullptr)
+                    root->next[bit] = new TrieNode();
+                root = root->next[bit];
+            }
+        }
+        int maxXor(int number) {
+            int ret = 0;
+            auto root = this;
+            for (int i = 31; i >= 0; i--) {
+                ret <<= 1;
+                auto bit = (number >> i) & 1;
+                if (root->next[!bit]) {
+                    ret |= 1;
+                    root = root->next[!bit];
+                } else {
+                    root = root->next[bit];
+                }
+            }
+            return ret;
         }
     };
-    void insert(TrieNode* root, int number) {
-        auto binary = bitset<32>(number);
-        for (int i = 31; i >= 0; i--) {
-            int cur = binary[i];
-            if (cur) {
-                if (root->one == nullptr) root->one = new TrieNode();
-                root = root->one;
-            } else {
-                if (root->zero == nullptr) root->zero = new TrieNode();
-                root = root->zero;
-            }
-        }
-    }
-    int getMaxXor(TrieNode* root, int number) {
-        bitset<32> binary(number);
-        int ret = 0;
-        for (int i = 31; i >= 0; i--) {
-            ret <<= 1;
-            if (binary[i]) {
-                if (root->zero) {
-                    ret |= 0x1;
-                    root = root->zero;
-                } else {
-                    root = root->one;
-                }
-            } else {
-                if (root->one) {
-                    ret |= 0x1;
-                    root = root->one;
-                } else {
-                    root = root->zero;
-                }
-            }
-        }
-        return ret;
-    }
     int findMaximumXOR(vector<int>& nums) {
         TrieNode* root = new TrieNode();
-        for (int i : nums) insert(root, i);
         int ret = 0;
-        for (int i : nums) ret = max(ret, getMaxXor(root, i));
-        delete root;
+        for (int i : nums) {
+            root->insert(i);
+            ret = max(ret, root->maxXor(i));
+        }
         return ret;
     }
 };
