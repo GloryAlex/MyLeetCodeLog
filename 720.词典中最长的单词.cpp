@@ -1,4 +1,4 @@
-#include "LeetCode.h"
+#include "lib/leetcode.h"
 using namespace std;
 /*
  * @lc app=leetcode.cn id=720 lang=cpp
