@@ -73,6 +73,8 @@
         "utility": "cpp",
         "clocale": "cpp",
         "list": "cpp",
-        "random": "cpp"
+        "random": "cpp",
+        "memory_resource": "cpp",
+        "forward_list": "cpp"
     }
 }
