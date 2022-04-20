@@ -1,4 +1,4 @@
-#include "LeetCode.h"
+#include "lib/leetcode.h"
 using namespace std;
 /*
  * @lc app=leetcode.cn id=388 lang=cpp
@@ -9,53 +9,90 @@ using namespace std;
 // @lc code=start
 class Solution {
    public:
+    class Parser {
+        string s;
+        string::iterator it;
+
+       public:
+        class Token {
+           private:
+            int depth = 0;
+            int length=0;
+            bool isFile = false;
+
+           public:
+            void init() {
+                *this = Token();
+            }
+            void add(char c) {
+                switch (c) {
+                    case '\t':
+                        if (!length)
+                            depth++;
+                        else
+                            length++;
+                        break;
+                    case '.':
+                        isFile = true;
+                    default:
+                        length++;
+                        break;
+                }
+            }
+            int getDepth() { return depth; }
+            int getLength() { return length; }
+            bool isDir() { return !isFile; }
+        };
+        Parser(string s) {
+            this->s = move(s);
+            it = this->s.begin();
+        }
+        void skipEmpty() {
+            while (it != s.end() && *it == '\n') it++;
+        }
+        Token next() {
+            Token t;
+            while (it != s.end() && *it != '\n') {
+                t.add(*it++);
+            }
+            skipEmpty();
+            return t;
+        }
+        bool hasNext() {
+            return it != s.end();
+        }
+    };
+
+   public:
     int lengthLongestPath(string input) {
-        auto curPathLength = vector<int>{0};//需要存一下根深度的长度
-        auto maxLength = 0, depth = 0, curLength = 0;
-        auto inputStream = istringstream(input);
-        auto level = string();//保存当前层文件名或文件夹名
-        while(getline(inputStream,level)) {
-            //计算当前深度
-            auto curDepth = 0;
-            for (; curDepth < level.size(); curDepth++) {
-                if (level[curDepth] != '\t') break;
+        auto p = Parser(move(input));
+        // {first: length, second: depth}
+        auto s = stack<pair<int, int>>({{0, -1}});
+        int longestLength = 0;
+        while (p.hasNext()) {
+            auto cur = p.next();
+            while (s.top().second >= cur.getDepth()) {
+                s.pop();
             }
-            //返回到当前深度的上一层
-            while (curDepth <= depth) {
-                curLength -= curPathLength.back();
-                curPathLength.pop_back();
-                depth--;
-            }
-            //压入当前文件（夹）
-            curPathLength.push_back(level.size() - curDepth);
-            curLength += curPathLength.back();
-            depth++;
-            //如果是文件则尝试更新长度
-            if (level.find('.') != level.npos) {
-                maxLength = max(maxLength, curLength + depth);
+
+            if (cur.isDir()) {
+                s.push({s.top().first + cur.getLength(), cur.getDepth()});
+            } else {
+                longestLength =
+                    max(longestLength,
+                        cur.getDepth() + cur.getLength() + s.top().first);
             }
         }
-        return maxLength;
+        return longestLength;
     }
-};  
+};
 // @lc code=end
 int main() {
+    json j;
     ifstream in("input");
     while (!in.eof()) {
-        string str;
-        in >> str;
-        string inputString;
-        for (int i = 1; i < str.size() - 1; i++) {
-            char cur = str[i];
-            if (cur == '\\') {
-                i++;
-                if (str[i] == 'n')
-                    cur = '\n';
-                else if (str[i] == 't')
-                    cur = '\t';
-            }
-            inputString.push_back(cur);
-        }
-        print(Solution().lengthLongestPath(inputString));
+        in >> j >> ws;
+        auto s = j.get<string>();
+        print(Solution().lengthLongestPath(s));
     }
 }
