@@ -1,4 +1,4 @@
-#include "LeetCode.h"
+#include "lib/leetcode.h"
 using namespace std;
 /*
  * @lc app=leetcode.cn id=611 lang=cpp
@@ -12,18 +12,13 @@ class Solution {
     int triangleNumber(vector<int>& nums) {
         int total = 0;
         sort(nums.begin(), nums.end());
-        for (int i = 0; i < nums.size(); i++) {
-            for (int j = i - 1; j >= 0; j--) {
-                int l = 0, r = j - 1;
-                while (l < r) {
-                    int mid = l + (r - l) / 2;
-                    if (nums[mid] + nums[j] > nums[i])
-                        r = mid;
-                    else
-                        l = mid + 1;
-                }
-                if (l == r && nums[l] + nums[j] > nums[i])
-                    total += j - l;
+        for (auto i = nums.begin(), end = nums.end(); i < end; i++) {
+            for (auto j = i + 1; j < end; j++) {
+                int diff = *j - *i;
+                int sum = *j + *i;
+                auto l = upper_bound(j + 1, end, diff);
+                auto r = lower_bound(j + 1, end, sum);
+                total += max(0L, r - l);
             }
         }
         return total;

@@ -10,24 +10,19 @@ using namespace std;
 class Solution {
    public:
     int minSubArrayLen(int target, vector<int>& nums) {
-        int end = 0;
-        int curSum = 0;
-        int result = INT_MAX;
-        for (; end < nums.size() && curSum + nums[end] < target; end++) {
-            curSum += nums[end];
+        int n = nums.size();
+        auto presum = nums;
+        for (int i = 1; i < n; i++) {
+            presum[i] += presum[i - 1];
         }
-        int begin = 0;
-        for (; end < nums.size(); end++) {
-            curSum += nums[end];
-
-            while (begin < end && curSum - nums[begin] >= target) {
-                curSum -= nums[begin];
-                begin++;
-            }
-
-            result = min(result, end - begin + 1);
+        int minLen = n + 1;
+        for (int i = 0; i < n; i++) {
+            int curTarget = target + (i == 0 ? 0 : presum[i - 1]);
+            if (presum.back() < curTarget) continue;
+            auto it = lower_bound(presum.begin() + i, presum.end(), curTarget);
+            minLen = min(minLen, (int)(it - presum.begin()) - i + 1);
         }
-        return result == INT_MAX ? 0 : result;
+        return minLen > n ? 0 : minLen / 2;
     }
 };
 // @lc code=end
